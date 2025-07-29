@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1093280690332",
+    "firebase_url": "https://pingme-395d8-default-rtdb.firebaseio.com",
+    "project_id": "pingme-395d8",
+    "storage_bucket": "pingme-395d8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093280690332:android:0d86e3d9e81f03790dfd59",
+        "android_client_info": {
+          "package_name": "com.chatapp.pingme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093280690332-1o5tablvotnuhsd5h23a4eff23ukmsmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatapp.pingme",
+            "certificate_hash": "3a82f6ecb0543ccadf495918f7e9d31ff83b551c"
+          }
+        },
+        {
+          "client_id": "1093280690332-ev5ivsvjdahq868g2gn2pnv3hnkra2lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzr0G4_dVhfHZIb9xwvCfn9ZxyqOoklL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093280690332-ev5ivsvjdahq868g2gn2pnv3hnkra2lf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

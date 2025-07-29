@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PingMe</string>
+    <string name="otp_message">Chat App Will Send OTP To Your Entered Number</string>
+    <string name="phone_number_hint">Enter Your Number Here</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+    <string name="or_continue_with">Or continue with</string>
+    <string name="default_web_client_id">1093280690332-ev5ivsvjdahq868g2gn2pnv3hnkra2lf.apps.googleusercontent.com</string>
+</resources>

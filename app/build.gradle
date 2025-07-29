@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace "com.chatapp.pingme"
+    compileSdk 36
+    defaultConfig {
+        applicationId "com.chatapp.pingme"
+        minSdk 27
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        packagingOptions {
+            exclude "META-INF/*"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // AndroidX Core
+    implementation libs.androidx.appcompat.v171
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.activity
+    implementation libs.androidx.viewpager
+
+    // Firebase
+    implementation platform(libs.firebase.bom.v3400)
+    implementation libs.google.firebase.auth
+    implementation libs.google.firebase.database
+    implementation libs.google.firebase.firestore
+    implementation libs.google.firebase.storage
+    implementation libs.google.firebase.analytics
+
+    // Firebase UI
+    implementation libs.firebase.ui.auth.v900
+    implementation libs.firebase.ui.firestore.v900
+
+    // Google Play Services
+    implementation libs.play.services.auth.v2140
+
+    // Third-party
+    implementation libs.ccp
+    implementation libs.picasso
+
+    // Testing
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit.v121
+    androidTestImplementation libs.espresso.core
+}

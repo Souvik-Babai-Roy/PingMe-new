@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <!-- Logo Image -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/logo_size"
+        android:layout_height="@dimen/logo_size"
+        android:src="@drawable/mychatapplogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/logo_margin_top" />
+
+    <!-- Email Input (Material Design) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_below="@id/logo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Input (Material Design) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_below="@id/emailInputLayout"
+        android:layout_marginTop="@dimen/element_spacing"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Login Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginHorizontal="@dimen/medium_margin"
+        android:layout_below="@id/passwordInputLayout"
+        android:layout_marginTop="@dimen/large_spacing"
+        android:text="@string/login"
+        android:backgroundTint="@color/primary_green"
+        android:textColor="@color/white" />
+
+    <!-- Social Login Text -->
+    <TextView
+        android:id="@+id/socialLoginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/large_spacing"
+        android:text="@string/or_continue_with"
+        android:textColor="@color/text_gray" />
+
+    <!-- Google Sign-In Button -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/socialLoginText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/medium_margin" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>
