@@ -1,0 +1,207 @@
+package com.chatapp.pingme;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class chatActivity extends AppCompatActivity {
+
+    private static final String TAG = "ChatActivity";
+    
+    TabLayout tabLayout;
+    TabItem mchat, mcall, mstatus;
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
+    androidx.appcompat.widget.Toolbar mtoolbar;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+
+        initializeFirebase();
+        initializeViews();
+        setupToolbar();
+        setupTabLayout();
+    }
+
+    private void initializeFirebase() {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        
+        // Check if user is still authenticated
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            redirectToLogin();
+            return;
+        }
+    }
+
+    private void initializeViews() {
+        tabLayout = findViewById(R.id.include);
+        mchat = findViewById(R.id.chat);
+        mcall = findViewById(R.id.calls);
+        mstatus = findViewById(R.id.status);
+        viewPager = findViewById(R.id.fragmentcontainer);
+        mtoolbar = findViewById(R.id.toolbar);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(mtoolbar);
+        
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_more_vert_24);
+        if (mtoolbar.getOverflowIcon() == null) {
+            mtoolbar.setOverflowIcon(drawable);
+        }
+    }
+
+    private void setupTabLayout() {
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
+        // Setup bidirectional synchronization between ViewPager and TabLayout
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setupWithViewPager(viewPager);
+        
+        // Optional: Set default tab
+        viewPager.setCurrentItem(0); // Start with chat tab
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.profile) {
+            startActivity(new Intent(chatActivity.this, ProfileActivity.class));
+            return true;
+        } else if (id == R.id.settings) {
+            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.logout) {
+            showLogoutDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    logout();
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void logout() {
+        updateUserStatus("Offline", () -> {
+            firebaseAuth.signOut();
+            redirectToLogin();
+        });
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateUserStatus("Offline", null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUserStatus("Online", null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateUserStatus("Offline", null);
+    }
+
+    private void updateUserStatus(String status, Runnable onComplete) {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            DocumentReference documentReference = firebaseFirestore.collection("Users")
+                    .document(currentUser.getUid());
+
+            documentReference.update("status", status)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d(TAG, "User status updated to: " + status);
+                        if (onComplete != null) {
+                            onComplete.run();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Status update failed: " + e.getMessage());
+                        if (onComplete != null) {
+                            onComplete.run();
+                        }
+                    });
+        } else if (onComplete != null) {
+            onComplete.run();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Show exit confirmation dialog
+        new AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    updateUserStatus("Offline", () -> {
+                        finishAffinity(); // Close all activities and exit app
+                    });
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    // Handle authentication state changes
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            redirectToLogin();
+        }
+    }
+}
