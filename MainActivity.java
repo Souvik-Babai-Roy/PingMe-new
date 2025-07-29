@@ -148,16 +148,17 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveUserToFirestore(FirebaseUser user) {
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("name", user.getDisplayName() != null ? user.getDisplayName() : "User");
-        userData.put("image", user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "");
-        userData.put("uid", user.getUid());
-        userData.put("email", user.getEmail() != null ? user.getEmail() : "");
-        userData.put("status", "Online");
+    private void saveUserToFirestore(FirebaseUser firebaseUser) {
+        // Create User object with proper structure
+        User user = new User(
+            firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "User",
+            firebaseUser.getEmail() != null ? firebaseUser.getEmail() : "",
+            firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : "",
+            firebaseUser.getUid()
+        );
 
-        firebaseFirestore.collection("Users").document(user.getUid())
-                .set(userData)
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid())
+                .set(user)
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "User profile saved successfully");
                     startChatActivity();

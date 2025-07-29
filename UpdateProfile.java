@@ -242,18 +242,17 @@ public class UpdateProfile extends AppCompatActivity {
         DocumentReference documentReference = firebaseFirestore.collection("Users")
                 .document(firebaseAuth.getUid());
         
-        Map<String, Object> userdata = new HashMap<>();
-        userdata.put("name", newname);
-        userdata.put("image", ImageURIacessToken != null ? ImageURIacessToken : "");
-        userdata.put("uid", firebaseAuth.getUid());
-        userdata.put("status", "Online");
-
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null && currentUser.getEmail() != null) {
-            userdata.put("email", currentUser.getEmail());
-        }
+        
+        // Create User object with updated data
+        User user = new User(
+            newname,
+            currentUser != null && currentUser.getEmail() != null ? currentUser.getEmail() : "",
+            ImageURIacessToken != null ? ImageURIacessToken : "",
+            firebaseAuth.getUid()
+        );
 
-        documentReference.set(userdata)
+        documentReference.set(user)
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "Profile updated in Firestore");
                     onSuccess.run();

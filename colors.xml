@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_color">#075E54</color>
+    <color name="primary_dark">#054D44</color>
+    <color name="accent_color">#25D366</color>
+    
+    <!-- Background Colors -->
+    <color name="background_color">#FFFFFF</color>
+    <color name="surface_color">#F8F9FA</color>
+    <color name="card_background">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#1C1C1C</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    
+    <!-- Chat Colors -->
+    <color name="chat_background">#E5DDD5</color>
+    <color name="sender_bubble">#DCF8C6</color>
+    <color name="receiver_bubble">#FFFFFF</color>
+    
+    <!-- Status Colors -->
+    <color name="online_color">#4CAF50</color>
+    <color name="offline_color">#9E9E9E</color>
+    <color name="typing_color">#FFC107</color>
+    
+    <!-- Utility Colors -->
+    <color name="divider_color">#E0E0E0</color>
+    <color name="error_color">#F44336</color>
+    <color name="success_color">#4CAF50</color>
+    <color name="warning_color">#FF9800</color>
+    
+    <!-- Message Status Colors -->
+    <color name="message_sent">#B0BEC5</color>
+    <color name="message_delivered">#4CAF50</color>
+    <color name="message_read">#2196F3</color>
+    
+    <!-- Unread Count -->
+    <color name="unread_count_bg">#FF5722</color>
+    
+    <!-- Transparent -->
+    <color name="transparent">#00000000</color>
+</resources>

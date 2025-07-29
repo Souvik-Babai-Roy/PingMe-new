@@ -215,15 +215,15 @@ public class setProfile extends AppCompatActivity {
         DocumentReference documentReference = firebaseFirestore.collection("Users")
                 .document(firebaseAuth.getUid());
         
-        Map<String, Object> userdata = new HashMap<>();
-        userdata.put("name", name);
-        userdata.put("image", ImageUriAcessToken != null ? ImageUriAcessToken : "");
-        userdata.put("uid", firebaseAuth.getUid());
-        userdata.put("status", "Online");
-        userdata.put("email", firebaseAuth.getCurrentUser().getEmail() != null ? 
-                     firebaseAuth.getCurrentUser().getEmail() : "");
+        // Create User object with proper structure
+        User user = new User(
+            name,
+            firebaseAuth.getCurrentUser().getEmail() != null ? firebaseAuth.getCurrentUser().getEmail() : "",
+            ImageUriAcessToken != null ? ImageUriAcessToken : "",
+            firebaseAuth.getUid()
+        );
 
-        documentReference.set(userdata)
+        documentReference.set(user)
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "User profile saved to Firestore");
                     onSuccess.run();
